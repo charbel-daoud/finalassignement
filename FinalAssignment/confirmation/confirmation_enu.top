@@ -1,0 +1,62 @@
+topic: ~confirmation()
+language: enu
+
+
+concept:(good) ^mode(contextual)
+    ^rand[
+        "Great"
+        "Excellent"
+        "Good"
+        "Fantastic"
+        "Wonderful"
+    ]
+
+concept:(not_good) ^mode(contextual)
+    ^rand[
+        "Not good"
+        "Not great"
+        "Terrible"
+        "Awful"
+        "Unpleasant"
+    ]
+concept:(good_feedback) ^mode(contextual)
+    ^rand[
+        "good"
+        "great"
+        "fine"
+       
+    ]
+
+concept:(bad_feedback) ^mode(contextual)
+    ^rand[
+        "difficult"
+        "challenging"
+        
+    ]
+
+u:(e:onStart) $ConfirmOutput=1 "Thank you for completing the interview. How do you feel it went?" 
+    u1:(~good_feedback) I'm glad to hear that! Your feedback is important to us. ^wait(2000) ^gotoReactivate(goodbye)
+    u1:(~bad_feedback) Sorry to hear that. We appreciate your feedback and will look into improving the process. ^wait(2000) ^gotoReactivate(goodbye)
+
+u:(e:yesAnswer) ^gotoReactivate(yesProposal)
+u:(e:noAnswer) ^gotoReactivate(noProposal)
+
+proposal: %goodbye "Your interview is now complete. The HR team will review your interview, and you will be notified about the next steps. Goodbye and best of luck!" $onStopped=1
+# Replying to speech
+#u:(~hello) ~hello
+
+u:(~good) ^gotoReactivate(yesProposal)
+u:(~not_good) ^gotoReactivate(noProposal)
+
+
+
+
+
+# Defining extra concepts out of words or group of words
+#concept:(hello) [hello hi hey "good morning" greetings]
+
+# Catching inputs and triggering outputs
+#u:(e:onStart) $onStopped=1
+
+# Replying to speech
+#u:(~hello) ~hello
